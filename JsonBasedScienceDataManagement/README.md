@@ -61,7 +61,7 @@ Dictionary<int, ScienceInfoData>     연구 단계와 상세 데이터
 ## 예시 파일
 
 ```text
-ScienceData/
+JsonBasedScienceDataManagement/
 ├─ ScienceInfo.json
 ├─ ScienceInfoData.cs
 ├─ ScienceInfoGet.cs
