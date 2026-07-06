@@ -19,12 +19,6 @@ public class NetworkObjManager : NetworkBehaviour
     public List<UnitCommonAi> netUnitCommonAis = new List<UnitCommonAi>();
     public List<BeltCtrl> networkBelts = new List<BeltCtrl>();
 
-    public delegate void OnStructureChanged(int type);
-    public OnStructureChanged onStructureChangedCallback;
-
-    public delegate void OnUnitChanged(int type);
-    public OnUnitChanged onUnitChangedCallback;
-
     // 신규 클라이언트가 생성을 기다려야 하는 오브젝트 수
     private int _syncTargetStructureCount = -1;
     private int _syncTargetBeltGroupCount = -1;
@@ -118,22 +112,14 @@ public class NetworkObjManager : NetworkBehaviour
             else
             {
                 netStructures.Add(structure);
-                onStructureChangedCallback?.Invoke(20);
             }
         }
         else if (worldObj.TryGet(out UnitCommonAi unitCommonAi))
         {
             netUnitCommonAis.Add(unitCommonAi);
-            onUnitChangedCallback?.Invoke(23);
         }
     }
-
-    public void BeltGroupAdd(BeltGroupMgr beltGroupMgr)
-    {
-        netBeltGroupMgrs.Add(beltGroupMgr);
-        onStructureChangedCallback?.Invoke(24);
-    }
-
+    
     /// <summary>
     /// 제거된 WorldObj를 해당 관리 목록에서 제외합니다.
     /// </summary>
@@ -151,6 +137,16 @@ public class NetworkObjManager : NetworkBehaviour
         {
             netUnitCommonAis.Remove(unitCommonAi);
         }
+    }
+    
+    public void BeltGroupAdd(BeltGroupMgr beltGroupMgr)
+    {
+        netBeltGroupMgrs.Add(beltGroupMgr);
+    }
+
+    public void BeltGroupRemove(BeltGroupMgr beltGroupMgr)
+    {
+        netBeltGroupMgrs.Remove(beltGroupMgr);
     }
 
     /// <summary>
@@ -314,56 +310,5 @@ public class NetworkObjManager : NetworkBehaviour
         ClientRpcParams rpcParams = default)
     {
         clientSyncComplete = true;
-    }
-
-    public void BeltGroupRemove(BeltGroupMgr beltGroupMgr)
-    {
-        netBeltGroupMgrs.Remove(beltGroupMgr);
-    }
-
-    public bool StructureCheck(StructureData strData)
-    {
-        for (int i = 0; i < netStructures.Count; i++)
-        {
-            if (netStructures[i].structureData == strData)
-                return true;
-        }
-
-        return false;
-    }
-
-    public bool UnitCheck(UnitCommonData unitData)
-    {
-        for (int i = 0; i < netUnitCommonAis.Count; i++)
-        {
-            if (netUnitCommonAis[i].unitCommonData == unitData)
-                return true;
-        }
-
-        return false;
-    }
-
-    /// <summary>
-    /// 구조물의 에너지 연결 정보를 초기화한 뒤 다시 구성합니다.
-    /// </summary>
-    public void InitConnectors()
-    {
-        for (int i = 0; i < netStructures.Count; i++)
-        {
-            EnergyGroupConnector connector =
-                netStructures[i].GetComponentInChildren<EnergyGroupConnector>();
-
-            if (connector != null)
-                connector.RemoveGroup();
-        }
-
-        for (int i = 0; i < netStructures.Count; i++)
-        {
-            EnergyGroupConnector connector =
-                netStructures[i].GetComponentInChildren<EnergyGroupConnector>();
-
-            if (connector != null)
-                connector.Init();
-        }
     }
 }
