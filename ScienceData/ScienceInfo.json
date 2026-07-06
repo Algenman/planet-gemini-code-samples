@@ -1,0 +1,24 @@
+{
+  "Belt": {
+    "Build": {
+      "1": {
+        "items": ["Coal"],
+        "amounts": [1],
+        "coreLv": 1,
+        "time": 1,
+        "Info": "Transports items between factories.",
+        "basicScience": true,
+        "sortIndex": 3
+      },
+      "2": {
+        "items": ["IronPlate", "Cogwheel"],
+        "amounts": [25, 25],
+        "coreLv": 2,
+        "time": 20,
+        "Info": "Faster than Belt Lv1.",
+        "basicScience": false,
+        "sortIndex": 4
+      }
+    }
+  }
+}
