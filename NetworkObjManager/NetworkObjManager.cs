@@ -33,7 +33,6 @@ public class NetworkObjManager : NetworkBehaviour
     public bool clientSyncComplete = false;
 
     // 클라이언트가 마지막으로 수신 확인한 배치 경계 번호
-    // TCP ACK가 아닌 애플리케이션 레벨의 동기화 흐름 제어 값입니다.
     private int _lastConfirmedBatchId = -1;
 
     // 현재 동기화를 진행 중인 클라이언트 정보
@@ -272,9 +271,6 @@ public class NetworkObjManager : NetworkBehaviour
 
     /// <summary>
     /// 클라이언트가 해당 배치 경계 메시지를 수신했음을 서버에 알립니다.
-    ///
-    /// 네트워크 전송 계층의 TCP ACK가 아니며,
-    /// 동기화 전송량을 제어하기 위한 애플리케이션 레벨 확인 응답입니다.
     /// </summary>
     [ClientRpc]
     private void RequestBatchConfirmationClientRpc(
