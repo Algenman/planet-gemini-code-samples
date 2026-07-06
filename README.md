@@ -8,3 +8,4 @@
 
 - [WorldObj 컴포넌트 캐싱](./WorldObj/README.md)
 - [NetworkObjManager 신규 클라이언트 동기화](./NetworkObjManager/README.md)
+- [ServerTime 기반 벨트 아이템 동기화](./BeltItemSync/README.md)
