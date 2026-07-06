@@ -57,8 +57,6 @@ while (currentBatchId - _lastConfirmedBatchId > maxInFlight)
     yield return null;
 ```
 
-여기서 확인 응답은 TCP의 전송 계층 ACK가 아닙니다. 클라이언트가 특정 배치의 경계 메시지를 수신했음을 서버에 알리는 애플리케이션 레벨 응답입니다.
-
 현재 구현은 각 오브젝트 상태의 적용 결과를 개별적으로 검증하는 방식이 아니라, 배치 경계 수신 여부를 기준으로 동기화 전송량을 제어하는 방식입니다.
 
 ## 완료 처리
