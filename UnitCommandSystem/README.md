@@ -10,7 +10,7 @@
 
 `UnitGroupCtrl`은 이 이벤트를 구독하여 현재 선택된 유닛 목록과 선택 표시를 관리하고, 입력된 명령을 선택된 모든 유닛의 ServerRpc로 분배합니다. 입력 처리와 개별 유닛 행동 로직을 직접 연결하지 않아 선택 방식이나 명령 종류가 추가되어도 역할을 나누어 관리할 수 있도록 구성했습니다.
 
-[▶ 유닛 선택, 이동 및 패트롤 영상 보기](../docs/media/unit-control.mp4)
+![유닛 선택, 이동 및 패트롤](../docs/media/unit-control.gif)
 
 ```text
 UnitDrag
@@ -75,7 +75,7 @@ unitList[i].SetPatrolCommandServerRpc(formationPosition);
 - `SpawnerCall`: 스포너가 지정한 방어 대상 또는 웨이브 목적지로 이동
 - `Die`: 사망 처리 후 행동 중단
 
-[▶ 스포너 크립과 주변 유닛 전투 영상 보기](../docs/media/monster-combat.mp4)
+![스포너 크립과 주변 유닛 전투](../docs/media/monster-combat.gif)
 
 ```csharp
 if (!isWaveState && distanceFromSpawn > traceLimit)
