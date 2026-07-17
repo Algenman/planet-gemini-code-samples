@@ -8,10 +8,24 @@ using UnityEngine;
 public abstract class UnitAi : UnitCommonAi
 {
     [SerializeField] private float moveSpeed = 3f;
+    [SerializeField] private GameObject selectionIndicator;
+    [SerializeField] private int unitTypeIndex;
+    [SerializeField] private int unitLevel;
 
     private Vector3 targetPosition;
     private float arrivalRadius;
     private bool isAttackMove;
+    private bool isHold;
+    private Transform focusTarget;
+
+    public int UnitTypeIndex => unitTypeIndex;
+    public int UnitLevel => unitLevel;
+
+    public void SetSelected(bool selected)
+    {
+        if (selectionIndicator)
+            selectionIndicator.SetActive(selected);
+    }
 
     protected override void UpdateAiState()
     {
@@ -48,6 +62,7 @@ public abstract class UnitAi : UnitCommonAi
         float groupArrivalRadius,
         bool attackMove)
     {
+        isHold = false;
         targetPosition = destination;
         arrivalRadius = groupArrivalRadius;
         isAttackMove = attackMove;
@@ -57,12 +72,34 @@ public abstract class UnitAi : UnitCommonAi
     [ServerRpc(RequireOwnership = false)]
     public void SetPatrolCommandServerRpc(Vector3 formationPosition)
     {
+        isHold = false;
         targetPosition = formationPosition;
         aiState = AIState.Patrol;
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void HoldCommandServerRpc()
+    {
+        isHold = true;
+        aiState = AIState.Idle;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SetTargetCommandServerRpc(NetworkObjectReference targetReference)
+    {
+        if (!targetReference.TryGet(out NetworkObject targetObject))
+            return;
+
+        isHold = false;
+        focusTarget = targetObject.transform;
+        aiState = AIState.Trace;
+    }
+
     private void MoveToCommandPosition()
     {
+        if (isHold)
+            return;
+
         transform.position = Vector3.MoveTowards(
             transform.position,
             targetPosition,
@@ -83,6 +120,12 @@ public abstract class UnitAi : UnitCommonAi
 
     private void TraceTarget()
     {
+        if (!focusTarget)
+        {
+            aiState = AIState.Idle;
+            return;
+        }
+
         // ... 타깃 추적 및 공격 거리 확인
     }
 

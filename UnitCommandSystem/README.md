@@ -4,6 +4,35 @@
 
 이 샘플은 실제 프로젝트에서 사용한 코드 중 유닛 제어와 AI 상태 전환의 핵심 흐름만 정리했습니다. 경로 생성, 애니메이션, UI, 저장 데이터 등 프로젝트 의존 로직은 공개 범위에서 제외했습니다.
 
+## 선택과 명령 전달
+
+`UnitDrag`는 마우스 입력을 해석하여 단일 선택, 영역 선택, 화면 내 동일 종류 선택을 처리합니다. 선택 결과와 이동·공격 이동·패트롤·정지·집중 공격 명령은 이벤트로 전달합니다.
+
+`UnitGroupCtrl`은 이 이벤트를 구독하여 현재 선택된 유닛 목록과 선택 표시를 관리하고, 입력된 명령을 선택된 모든 유닛의 ServerRpc로 분배합니다. 입력 처리와 개별 유닛 행동 로직을 직접 연결하지 않아 선택 방식이나 명령 종류가 추가되어도 역할을 나누어 관리할 수 있도록 구성했습니다.
+
+```text
+UnitDrag
+ ├─ 단일 클릭 / 드래그 영역 / 동일 종류 선택
+ └─ 이동 / 공격 이동 / 패트롤 / 정지 / 집중 공격 이벤트
+          ↓
+UnitGroupCtrl
+ ├─ 선택 유닛 목록 및 선택 표시 관리
+ └─ 선택된 유닛에 그룹 명령 분배
+          ↓
+UnitAi ServerRpc
+```
+
+```csharp
+private void OnEnable()
+{
+    UnitDrag.UnitSelected += AddUnit;
+    UnitDrag.MoveRequested += SetMoveTarget;
+    UnitDrag.PatrolRequested += SetPatrolTarget;
+    UnitDrag.HoldRequested += HoldUnits;
+    UnitDrag.TargetRequested += SetTarget;
+}
+```
+
 ## 유닛 컨트롤
 
 선택한 유닛을 `UnitGroupCtrl`에서 하나의 그룹으로 관리하고 이동, 공격 이동, 패트롤 명령을 각 유닛에 전달합니다. 명령과 실제 행동 판정은 서버를 기준으로 처리하여 멀티플레이 환경에서 동일한 결과를 유지하도록 구성했습니다.
@@ -62,16 +91,18 @@ else
 ## 구조
 
 ```text
+UnitDrag ── 선택 및 명령 이벤트 ──> UnitGroupCtrl ── 그룹 명령 ──> UnitAi
+
 UnitCommonAi
- ├─ UnitAi
- │   └─ UnitGroupCtrl에서 이동/패트롤/공격 이동 명령 수신
- └─ MonsterAi
-     └─ 상황에 따라 대기/순찰/추적/공격/복귀/호출 상태 전환
+ ├─ UnitAi: 이동 / 패트롤 / 공격 이동 / 정지 / 집중 공격
+ └─ MonsterAi: 대기 / 순찰 / 추적 / 공격 / 복귀 / 스포너 호출
 ```
 
 ## 핵심 구현
 
 - 선택 유닛 목록을 기준으로 그룹 명령 일괄 전달
+- 단일 클릭, 드래그 영역, 화면 내 동일 종류 유닛 선택
+- 이동, 공격 이동, 패트롤, 정지, 집중 공격 입력을 이벤트로 분리
 - 유닛 수에 비례한 도착 허용 반경으로 유닛 간 겹침과 이동 정체 완화
 - 그룹 중심과 상대 오프셋을 이용한 패트롤 포메이션 유지
 - 서버 기준의 유닛 명령 및 AI 행동 판정

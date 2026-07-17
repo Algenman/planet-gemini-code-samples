@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 /// <summary>
@@ -10,6 +11,44 @@ public class UnitGroupCtrl : MonoBehaviour
 
     private readonly List<Vector3> unitOffsets = new();
     private Vector3 groupCenter;
+
+    private void OnEnable()
+    {
+        UnitDrag.ClearSelectionRequested += ClearUnitList;
+        UnitDrag.UnitSelected += AddUnit;
+        UnitDrag.MoveRequested += SetMoveTarget;
+        UnitDrag.PatrolRequested += SetPatrolTarget;
+        UnitDrag.HoldRequested += HoldUnits;
+        UnitDrag.TargetRequested += SetTarget;
+    }
+
+    private void OnDisable()
+    {
+        UnitDrag.ClearSelectionRequested -= ClearUnitList;
+        UnitDrag.UnitSelected -= AddUnit;
+        UnitDrag.MoveRequested -= SetMoveTarget;
+        UnitDrag.PatrolRequested -= SetPatrolTarget;
+        UnitDrag.HoldRequested -= HoldUnits;
+        UnitDrag.TargetRequested -= SetTarget;
+    }
+
+    private void ClearUnitList()
+    {
+        foreach (UnitAi unit in unitList)
+            unit.SetSelected(false);
+
+        unitList.Clear();
+        unitOffsets.Clear();
+    }
+
+    private void AddUnit(UnitAi unit)
+    {
+        if (!unit || unitList.Contains(unit))
+            return;
+
+        unitList.Add(unit);
+        unit.SetSelected(true);
+    }
 
     public void SetMoveTarget(Vector3 targetPosition, bool isAttackMove)
     {
@@ -40,6 +79,18 @@ public class UnitGroupCtrl : MonoBehaviour
             Vector3 formationPosition = patrolPosition + unitOffsets[i];
             unitList[i].SetPatrolCommandServerRpc(formationPosition);
         }
+    }
+
+    private void HoldUnits()
+    {
+        foreach (UnitAi unit in unitList)
+            unit.HoldCommandServerRpc();
+    }
+
+    private void SetTarget(NetworkObjectReference target)
+    {
+        foreach (UnitAi unit in unitList)
+            unit.SetTargetCommandServerRpc(target);
     }
 
     private void CalculateGroupFormation()
