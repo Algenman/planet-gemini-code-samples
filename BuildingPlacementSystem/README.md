@@ -34,7 +34,7 @@ NetworkObject 생성 및 비용 차감
 건설 완료 후 실제 건물 기능 활성화
 ```
 
-[▶ 건물 배치 및 건설 진행 영상 보기](../docs/media/building-construction.mp4)
+![건물 배치 및 건설 진행](../docs/media/building-construction.gif)
 
 ## 비네트워크 미리보기
 
@@ -87,7 +87,7 @@ PayCost(isHostMap, buildingData, spawnCount);
 
 각 구간의 위치와 방향 정보를 배열로 만들어 서버에 전달하고, 서버에서는 해당 구간을 하나의 벨트 그룹으로 생성합니다.
 
-[▶ 드래그 기반 연속 벨트 설치 영상 보기](../docs/media/belt-placement.mp4)
+![드래그 기반 연속 벨트 설치](../docs/media/belt-placement.gif)
 
 ## 건설 진행 상태
 

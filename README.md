@@ -10,10 +10,10 @@
 
 | Feature | Video |
 | --- | --- |
-| 유닛 선택, 이동 및 패트롤 | [▶ Unit Control](./docs/media/unit-control.mp4) |
-| 스포너 크립과 주변 유닛 전투 | [▶ Monster Combat](./docs/media/monster-combat.mp4) |
-| 건물 배치 및 건설 진행 | [▶ Building Construction](./docs/media/building-construction.mp4) |
-| 드래그 기반 연속 벨트 설치 | [▶ Belt Placement](./docs/media/belt-placement.mp4) |
+| 유닛 선택, 이동 및 패트롤 | <img src="./docs/media/unit-control.gif" alt="Unit Control" width="360"> |
+| 스포너 크립과 주변 유닛 전투 | <img src="./docs/media/monster-combat.gif" alt="Monster Combat" width="360"> |
+| 건물 배치 및 건설 진행 | <img src="./docs/media/building-construction.gif" alt="Building Construction" width="360"> |
+| 드래그 기반 연속 벨트 설치 | <img src="./docs/media/belt-placement.gif" alt="Belt Placement" width="360"> |
 
 ## 주요 샘플
 
