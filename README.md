@@ -15,7 +15,7 @@
 | [BeltItemSync](./BeltItemSync/README.md) | ServerTime 기반 위치 동기화 | 벨트 위 아이템 위치를 매번 RPC로 보내지 않고, 서버 시간을 기준으로 각 클라이언트가 동일한 이동 결과를 계산하도록 개선한 예시입니다. |
 | [JsonBasedScienceDataManagement](./JsonBasedScienceDataManagement/README.md) | JSON 기반 데이터 관리 | 연구 트리 정보를 코드에 직접 작성하지 않고 JSON 데이터로 분리하여 관리한 예시입니다. |
 | [SearchBatchProcessing](./SearchBatchProcessing/README.md) | 탐색 부하 분산 처리 | 유닛, 타워, 건물의 주변 오브젝트 탐색을 중앙 매니저에서 관리하고, 일정 개수 단위로 나누어 여러 프레임에 분산 처리한 예시입니다. |
-| [UnitCommandSystem](./UnitCommandSystem/README.md) | 유닛 컨트롤 / 몬스터 AI | 유닛의 간격을 고려한 그룹 이동과 포메이션 패트롤, 상황에 따라 행동을 전환하는 몬스터 AI를 구현한 예시입니다. |
+| [UnitCommandSystem](./UnitCommandSystem/README.md) | 유닛 컨트롤 / 몬스터 AI | 그룹 이동과 포메이션 패트롤, 상황별 행동 및 어그로 기반 타깃 우선순위를 구현한 예시입니다. |
 | [BuildingPlacementSystem](./BuildingPlacementSystem/README.md) | 건물 배치 / 건설 상태 | 비네트워크 미리보기, 배치 조건 검사, 서버 건물 생성, 연속 벨트 배치와 건설 완료 흐름을 정리한 예시입니다. |
 
 ## 대표적으로 보여주고 싶은 부분
