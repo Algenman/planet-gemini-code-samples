@@ -56,7 +56,7 @@ Dictionary<string, ...>             Build·Battle 카테고리
 Dictionary<int, ScienceInfoData>     연구 단계와 상세 데이터
 ```
 
-조회한 데이터는 연구 비용 표시, 해금 조건 확인, 연구 시간 설정 및 연구 아이콘 정렬에 사용했습니다.
+공개 샘플에서는 코어 레벨과 `sortIndex`를 기준으로 데이터를 조회하고 연구 아이콘을 생성하는 흐름을 확인할 수 있습니다. 비용과 해금 판정의 실제 사용 코드는 이 샘플에 포함되어 있지 않습니다.
 
 ## 예시 파일
 
@@ -73,3 +73,9 @@ JsonBasedScienceDataManagement/
 - `ScienceInfoData.cs`: JSON 연구 항목의 데이터 모델
 - `ScienceInfoGet.cs`: JSON 역직렬화와 연구 데이터 조회
 - `ScienceCoreLvCtrl.cs`: 조회한 데이터를 이용한 연구 아이콘 생성
+
+## 확인한 내용과 데이터 제약
+
+밸런스 작업 중 `coreLv`, `time`, `basicScience`, `sortIndex` 값을 바꾸고 연구 UI에 반영되는 것을 확인했습니다.
+
+새로운 연구 항목을 추가할 때 JSON만 수정하는 것은 아니며, 관련 인스턴스와 ScriptableObject 목록 등록이 필요합니다. `sortIndex`가 중복되면 `SortedDictionary.Add()`에서 오류가 발생하므로 데이터마다 고유한 값을 사용했습니다.
