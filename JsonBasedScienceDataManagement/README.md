@@ -9,7 +9,7 @@ Planet Gemini의 건물, 유닛 및 업그레이드 연구 정보를 JSON으로 
 - 연구 시간
 - 기본 해금 여부
 - 연구 설명
-- UI 정렬 순서
+- UI 표시 순서
 
 ## 데이터 처리 흐름
 
@@ -78,4 +78,4 @@ JsonBasedScienceDataManagement/
 
 밸런스 작업 중 `coreLv`, `time`, `basicScience`, `sortIndex` 값을 바꾸고 연구 UI에 반영되는 것을 확인했습니다.
 
-새로운 연구 항목을 추가할 때 JSON만 수정하는 것은 아니며, 관련 인스턴스와 ScriptableObject 목록 등록이 필요합니다. `sortIndex`가 중복되면 `SortedDictionary.Add()`에서 오류가 발생하므로 데이터마다 고유한 값을 사용했습니다.
+새로운 연구 항목을 추가할 때는 JSON뿐 아니라 연구 대상 오브젝트와 ScriptableObject도 함께 등록해야 했습니다. `sortIndex`가 중복되면 `SortedDictionary.Add()`에서 오류가 발생하므로 데이터마다 고유한 값을 사용했습니다.
